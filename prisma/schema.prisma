@@ -14,7 +14,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Todo {
+model Customer {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
-  text String
+  date DateTime
+  name String
+  email String
+
 }

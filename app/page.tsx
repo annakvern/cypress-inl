@@ -32,12 +32,26 @@ export default async function Home() {
     },
   ];
 
-  const todos = await db.todo.findMany();
+  const currentCustomers = await db.customer.findMany();
+  const formatDateSE = (d: Date | string) =>
+    new Intl.DateTimeFormat("sv-SE", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(d instanceof Date ? d : new Date(d));
 
   return (
     <main>
-      <TodoList defaultTodos={todos} />
       <div>
+        <ul>
+          {currentCustomers.map((c) => (
+            <li key={c.id}>
+              <p>{c.name}</p>
+              <p>{c.email}</p>
+              <p>Bokning: {formatDateSE(c.date)}</p>
+            </li>
+          ))}
+        </ul>
         <h1
           style={{
             fontFamily: "sans-serif",
