@@ -12,14 +12,12 @@ export default async function ActivityPage({ params }: Props) {
   }
   const decodedTitle = decodeURIComponent(title);
 
-  // hitta produkt med articleNumber
-
   const activity = await db.activity.findUnique({
     where: { id: id },
   });
 
   if (!activity) {
-    return <h1>Produkten hittades inte</h1>;
+    return <h1>Aktiviteten hittades inte</h1>;
   }
 
   return (
@@ -36,12 +34,12 @@ export default async function ActivityPage({ params }: Props) {
     >
       <div
         style={{
-          padding: 40,
-          backgroundColor: "#a2a2a2",
+          padding: 80,
+          backgroundColor: "#dddddd",
           border: "2px solid #c7c7c7",
           borderRadius: "0.5rem",
           margin: "2rem 0",
-          width: "100%",
+          width: "70%",
           justifyContent: "center",
           display: "flex",
           flexDirection: "row",
