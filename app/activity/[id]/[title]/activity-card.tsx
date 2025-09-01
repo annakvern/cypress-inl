@@ -1,14 +1,13 @@
 "use client";
+import type { Activity } from "@/generated/prisma";
+import Form from "@/app/ui/booking-form";
 import { useState } from "react";
-import Form from "./booking-form";
 
-interface CardProps {
-  img: string;
-  cardTitle: string;
-  cardContent: string;
-}
+type ActivityCardProps = {
+  activity: Activity;
+};
 
-export default function Card({ img, cardTitle, cardContent }: CardProps) {
+export default function ActivityCard({ activity }: ActivityCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOnClick = () => {
@@ -29,8 +28,8 @@ export default function Card({ img, cardTitle, cardContent }: CardProps) {
       }}
     >
       <img
-        src={img}
-        alt={cardTitle}
+        src={activity.img}
+        alt={activity.title}
         style={{
           width: "100%",
           height: 180,
@@ -40,9 +39,9 @@ export default function Card({ img, cardTitle, cardContent }: CardProps) {
       />
       <div style={{ padding: 12 }}>
         <h2 style={{ margin: 0, fontWeight: 600, fontFamily: "sans-serif" }}>
-          {cardTitle}
+          {activity.title}
         </h2>
-        <p style={{ marginTop: 8 }}>{cardContent}</p>
+        <p style={{ marginTop: 8 }}>{activity.description}</p>
         <button
           style={{
             backgroundColor: "teal",
@@ -97,7 +96,7 @@ export default function Card({ img, cardTitle, cardContent }: CardProps) {
               ✖
             </button>
             <h3 style={{ fontFamily: "sans-serif", marginLeft: 8 }}>
-              Boka {cardTitle}
+              Boka {activity.title}
             </h3>
             <Form onSuccess={() => handleClose()} />
           </div>
