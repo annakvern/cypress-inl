@@ -1,6 +1,7 @@
 import { db } from "@/prisma/db";
 import Link from "next/link";
 import ActivityCard from "./activity/[id]/[title]/activity-card";
+import { createCustomerAndRedirect } from "@/app/(shared)/actions";
 
 export default async function Home() {
   const activities = await db.activity.findMany();
@@ -62,7 +63,10 @@ export default async function Home() {
                   justifyContent: "center",
                 }}
               >
-                <ActivityCard activity={activity} />
+                <ActivityCard
+                  activity={activity}
+                  action={createCustomerAndRedirect}
+                />
               </Link>
             ))
           )}

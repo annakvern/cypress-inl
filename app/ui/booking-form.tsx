@@ -1,64 +1,25 @@
+// app/ui/booking-form.tsx
 "use client";
 import React, { useState } from "react";
 
-export interface FormValues {
-  date: string;
-  name: string;
-  email: string;
-}
+type FormProps = {
+  activityTitle: string;
+  action: (formData: FormData) => Promise<void>;
+};
 
-export interface FormProps {
-  onSuccess?: (values: FormValues) => void;
-}
-
-export default function Form({ onSuccess }: FormProps) {
+export default function Form({ activityTitle, action }: FormProps) {
   const [selectedDate, setSelectedDate] = useState("");
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
-
-  const formatDate = (dateString: string) => {
-    console.log("I formatDate");
-    if (!dateString) return "";
-    const [y, m, d] = dateString.split("-").map(Number);
-    const date = new Date(y, (m ?? 1) - 1, d ?? 1);
-    return new Intl.DateTimeFormat("sv-SE", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).format(date);
-  };
-
-  const nameRegex = /^[A-ZÅÄÖ][a-zA-ZÅÄÖåäö'’\- ]*$/;
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
-
-  const validate = () => {
-    const inputErrors: { name?: string; email?: string } = {};
-    if (!nameRegex.test(name)) {
-      inputErrors.name = "Namnet måste börja med en versal.";
-    }
-    if (!emailRegex.test(email)) {
-      inputErrors.email = "Ogiltig e-postadress.";
-    }
-    setErrors(inputErrors);
-    return Object.keys(inputErrors).length === 0;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    onSuccess?.({ name, email, date: selectedDate });
-  };
-
   return (
     <form
-      onSubmit={handleSubmit}
-      style={{ padding: 4, margin: "auto" }}
+      action={action}
       aria-label="Bokningsformulär"
+      style={{ padding: 4, margin: "auto" }}
     >
+      <input type="hidden" name="title" value={activityTitle} />
+
       <div
         style={{
           padding: 8,
@@ -73,11 +34,9 @@ export default function Form({ onSuccess }: FormProps) {
             id="date-input"
             type="date"
             name="date"
+            required
             value={selectedDate}
-            onChange={(e) => {
-              console.log("onChange:", e.target.value);
-              setSelectedDate(e.target.value);
-            }}
+            onChange={(e) => setSelectedDate(e.target.value)}
             style={{
               border: "solid 1px gray",
               padding: 8,
@@ -86,60 +45,54 @@ export default function Form({ onSuccess }: FormProps) {
             }}
           />
         </label>
-        {selectedDate && <div>Valt datum: {formatDate(selectedDate)}</div>}
+
+        {selectedDate && (
+          <div>
+            Valt datum:{" "}
+            {new Intl.DateTimeFormat("sv-SE", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            }).format(new Date(selectedDate))}
+          </div>
+        )}
+
         <label htmlFor="name-input" style={{ fontFamily: "sans-serif" }}>
           Namn:
         </label>
         <input
           id="name-input"
+          name="name"
           type="text"
+          required
+          pattern="^[A-ZÅÄÖ][a-zA-ZÅÄÖåäö'’\- ]*$"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           style={{
             border: "solid 1px gray",
             padding: 8,
             width: "100%",
             borderRadius: 5,
           }}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
         />
-        {errors.name && (
-          <div
-            id="name-error"
-            role="alert"
-            style={{ color: "red", marginTop: 4 }}
-          >
-            {errors.name}
-          </div>
-        )}
-      </div>
 
-      <div style={{ padding: 8 }}>
         <label htmlFor="email-input" style={{ fontFamily: "sans-serif" }}>
           Email:
         </label>
         <input
           id="email-input"
+          name="email"
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           style={{
             border: "solid 1px gray",
             padding: 8,
             width: "100%",
             borderRadius: 5,
           }}
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
         />
-        {errors.email && (
-          <div
-            id="email-error"
-            role="alert"
-            style={{ color: "red", marginTop: 4 }}
-          >
-            {errors.email}
-          </div>
-        )}
       </div>
 
       <button

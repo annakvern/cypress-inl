@@ -2,6 +2,7 @@ import BookingButton from "@/app/ui/booking-button";
 import GoBackButton from "@/app/ui/go-back-button";
 import { db } from "@/prisma/db";
 import Image from "next/image";
+import { createCustomerAndRedirect } from "@/app/(shared)/actions";
 
 interface Props {
   params: { id: string; title: string };
@@ -79,8 +80,10 @@ export default async function ActivityPage({ params }: Props) {
 
           <p style={{ marginTop: 20 }}>{activity.description}</p>
 
-          <BookingButton activityTitle={activity.title} />
-
+          <BookingButton
+            activityTitle={activity.title}
+            action={createCustomerAndRedirect}
+          />
           <div
             style={{
               display: "flex",

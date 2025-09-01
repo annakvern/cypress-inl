@@ -4,16 +4,16 @@ import { createPortal } from "react-dom";
 import Form from "@/app/ui/booking-form";
 import { useRouter } from "next/navigation";
 
-type BookingButtonProps = {
+interface BookingButtonProps {
   activityTitle: string;
+  action: (formData: FormData) => Promise<void>;
   label?: string;
-  onBooked?: () => void;
-};
+}
 
 export default function BookingButton({
   activityTitle,
+  action,
   label = "Boka",
-  onBooked,
 }: BookingButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -109,18 +109,7 @@ export default function BookingButton({
                 Boka {activityTitle}
               </h3>
 
-              <Form
-                onSuccess={({ date }) => {
-                  // DEBUG: ensure we’re here
-                  console.log("Form onSuccess:", { date, activityTitle });
-                  const qs = new URLSearchParams({
-                    title: activityTitle,
-                    date: date ?? "",
-                  }).toString();
-                  router.push(`/confirmation?${qs}`);
-                  setIsOpen(false);
-                }}
-              />
+              <Form activityTitle={activityTitle} action={action} />
             </div>
           </div>,
           document.body

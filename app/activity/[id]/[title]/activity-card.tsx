@@ -4,9 +4,10 @@ import BookingButton from "@/app/ui/booking-button";
 
 type ActivityCardProps = {
   activity: Activity;
+  action: (formData: FormData) => Promise<void>;
 };
 
-export default function ActivityCard({ activity }: ActivityCardProps) {
+export default function ActivityCard({ activity, action }: ActivityCardProps) {
   return (
     <div
       style={{
@@ -31,7 +32,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
           {activity.title}
         </h2>
         <p style={{ marginTop: 8 }}>{activity.description}</p>
-        <BookingButton activityTitle={activity.title} />
+        <BookingButton activityTitle={activity.title} action={action} />
       </div>
     </div>
   );
