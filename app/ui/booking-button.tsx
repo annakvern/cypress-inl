@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Form from "@/app/ui/booking-form";
+import { useRouter } from "next/navigation";
 
 type BookingButtonProps = {
   activityTitle: string;
@@ -15,6 +16,7 @@ export default function BookingButton({
   onBooked,
 }: BookingButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
@@ -108,9 +110,15 @@ export default function BookingButton({
               </h3>
 
               <Form
-                onSuccess={() => {
-                  onBooked?.();
-                  close();
+                onSuccess={({ date }) => {
+                  // DEBUG: ensure we’re here
+                  console.log("Form onSuccess:", { date, activityTitle });
+                  const qs = new URLSearchParams({
+                    title: activityTitle,
+                    date: date ?? "",
+                  }).toString();
+                  router.push(`/confirmation?${qs}`);
+                  setIsOpen(false);
                 }}
               />
             </div>

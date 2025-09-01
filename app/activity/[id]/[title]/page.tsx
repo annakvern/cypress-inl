@@ -1,3 +1,5 @@
+import BookingButton from "@/app/ui/booking-button";
+import GoBackButton from "@/app/ui/go-back-button";
 import { db } from "@/prisma/db";
 import Image from "next/image";
 
@@ -32,6 +34,7 @@ export default async function ActivityPage({ params }: Props) {
         marginTop: 20,
       }}
     >
+      <GoBackButton />
       <div
         style={{
           padding: 80,
@@ -75,6 +78,8 @@ export default async function ActivityPage({ params }: Props) {
           <h1 style={{ fontSize: 40 }}>{activity.title}</h1>
 
           <p style={{ marginTop: 20 }}>{activity.description}</p>
+
+          <BookingButton activityTitle={activity.title} />
 
           <div
             style={{
