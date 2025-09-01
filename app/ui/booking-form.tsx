@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 export interface FormValues {
+  date: string;
   name: string;
   email: string;
 }
@@ -18,7 +19,6 @@ export default function Form({ onSuccess }: FormProps) {
 
   const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
 
-  // Format to Swedish style, e.g. "17 augusti 2026"
   const formatDate = (dateString: string) => {
     console.log("I formatDate");
     if (!dateString) return "";
@@ -50,7 +50,7 @@ export default function Form({ onSuccess }: FormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    onSuccess?.({ name, email });
+    onSuccess?.({ name, email, date: selectedDate });
   };
 
   return (
@@ -73,7 +73,7 @@ export default function Form({ onSuccess }: FormProps) {
             id="date-input"
             type="date"
             name="date"
-            value={selectedDate} // <-- gör fältet kontrollerat
+            value={selectedDate}
             onChange={(e) => {
               console.log("onChange:", e.target.value);
               setSelectedDate(e.target.value);
