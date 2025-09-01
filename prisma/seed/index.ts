@@ -1,8 +1,10 @@
 import { db } from "../db";
+import { seedActivities } from "./activity";
 import { seedCustomers } from "./customer";
 
 async function main() {
   await seedCustomers();
+  await seedActivities();
 }
 
 main()

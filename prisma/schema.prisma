@@ -19,5 +19,11 @@ model Customer {
   date DateTime
   name String
   email String
+}
 
+model Activity {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  description String
+  img String
 }
