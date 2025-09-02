@@ -2,19 +2,17 @@ import BookingButton from "@/app/ui/booking-button";
 import GoBackButton from "@/app/ui/go-back-button";
 import { db } from "@/prisma/db";
 import Image from "next/image";
-import { createCustomerAndRedirect } from "@/app/(shared)/actions";
+import { createBookingAndRedirect } from "@/app/(shared)/actions";
 
 interface Props {
   params: { id: string; title: string };
 }
 
 export default async function ActivityPage({ params }: Props) {
-  const { id, title } = params;
+  const { id } = await params;
   if (!id) {
     return <h1>Produkten hittades inte</h1>;
   }
-  const decodedTitle = decodeURIComponent(title);
-
   const activity = await db.activity.findUnique({
     where: { id: id },
   });
@@ -81,8 +79,9 @@ export default async function ActivityPage({ params }: Props) {
           <p style={{ marginTop: 20 }}>{activity.description}</p>
 
           <BookingButton
+            activityId={activity.id}
             activityTitle={activity.title}
-            action={createCustomerAndRedirect}
+            action={createBookingAndRedirect}
           />
           <div
             style={{
@@ -91,9 +90,7 @@ export default async function ActivityPage({ params }: Props) {
               width: "100%",
               marginTop: 20,
             }}
-          >
-            {/* <AddToCartButton product={product} data-cy="product-buy-button" /> */}
-          </div>
+          ></div>
         </div>
       </div>
     </div>

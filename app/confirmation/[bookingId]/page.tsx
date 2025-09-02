@@ -1,24 +1,31 @@
-// app/confirmation/page.tsx  (Server Component)
+// app/confirmation/[bookingId]/page.tsx
+import { db } from "@/prisma/db";
 import Link from "next/link";
 
-function formatSE(dateStr?: string) {
-  if (!dateStr) return "";
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const date = new Date(y, (m ?? 1) - 1, d ?? 1);
+function formatDate(date: Date) {
   return new Intl.DateTimeFormat("sv-SE", {
     day: "numeric",
     month: "long",
     year: "numeric",
-  }).format(date);
+  }).format(new Date(date));
 }
 
-export default function ConfirmationPage({
+export default async function ConfirmationPage({
+  params,
   searchParams,
 }: {
-  searchParams: { title?: string; date?: string };
+  params: { bookingId: string };
+  searchParams: { title?: string };
 }) {
-  const title = searchParams.title ?? "aktiviteten";
-  const formattedDate = formatSE(searchParams.date);
+  const booking = await db.booking.findUnique({
+    where: { id: params.bookingId },
+    include: { activity: true, customer: true },
+  });
+  if (!booking)
+    return <h1 style={{ textAlign: "center" }}>Bokningen hittades inte.</h1>;
+
+  const title = (await searchParams.title) ?? booking.activity.title;
+  const dateText = formatDate(booking.date);
 
   return (
     <main
@@ -39,10 +46,8 @@ export default function ConfirmationPage({
         }}
       >
         <h1 style={{ textAlign: "center", marginTop: 0 }}>
-          Yay! Du är bokad på {title}
-          {formattedDate ? ` den ${formattedDate}` : ""} – välkommen!
+          Yay! Du är bokad på {title} den {dateText} – välkommen!
         </h1>
-
         <p style={{ textAlign: "center", marginTop: 24 }}>
           <Link
             href="/"

@@ -1,30 +1,42 @@
-// app/actions.ts
 "use server";
 
 import { db } from "@/prisma/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function createCustomerAndRedirect(formData: FormData) {
+export async function createBookingAndRedirect(formData: FormData) {
   const name = String(formData.get("name") || "");
   const email = String(formData.get("email") || "");
   const dateStr = String(formData.get("date") || "");
+  const activityId = String(formData.get("activityId") || "");
   const title = String(formData.get("title") || "aktiviteten");
 
-  const when = dateStr ? new Date(dateStr) : new Date();
-
-  const updated = await db.customer.updateMany({
-    where: { email },
-    data: { name, date: when },
-  });
-  if (updated.count === 0) {
-    await db.customer.create({ data: { name, email, date: when } });
+  if (!name || !email || !dateStr || !activityId) {
+    redirect("/?error=missing_fields");
   }
 
-  revalidatePath("/"); // update homepage list
-  redirect(
-    `/confirmation?title=${encodeURIComponent(title)}&date=${encodeURIComponent(
-      dateStr
-    )}`
-  );
+  const when = new Date(dateStr);
+
+  // 1) Ensure customer exists (email is unique in your schema)
+  const customer = await db.customer.upsert({
+    where: { email },
+    update: { name, date: when },
+    create: { name, email, date: when },
+  });
+
+  // 2) Create booking that links customer + activity + date
+  const booking = await db.booking.create({
+    data: {
+      date: when,
+      activityId, // ObjectId string
+      customerId: customer.id,
+    },
+    select: { id: true },
+  });
+
+  // 3) Revalidate pages that list customers/bookings
+  revalidatePath("/");
+
+  // 4) Redirect to a booking-specific confirmation page
+  redirect(`/confirmation/${booking.id}?title=${encodeURIComponent(title)}`);
 }

@@ -32,7 +32,11 @@ export default function ActivityCard({ activity, action }: ActivityCardProps) {
           {activity.title}
         </h2>
         <p style={{ marginTop: 8 }}>{activity.description}</p>
-        <BookingButton activityTitle={activity.title} action={action} />
+        <BookingButton
+          activityId={activity.id}
+          activityTitle={activity.title}
+          action={action}
+        />
       </div>
     </div>
   );

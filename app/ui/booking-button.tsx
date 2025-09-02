@@ -5,18 +5,19 @@ import Form from "@/app/ui/booking-form";
 import { useRouter } from "next/navigation";
 
 interface BookingButtonProps {
+  activityId: string;
   activityTitle: string;
   action: (formData: FormData) => Promise<void>;
   label?: string;
 }
 
 export default function BookingButton({
+  activityId,
   activityTitle,
   action,
   label = "Boka",
 }: BookingButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
@@ -109,7 +110,11 @@ export default function BookingButton({
                 Boka {activityTitle}
               </h3>
 
-              <Form activityTitle={activityTitle} action={action} />
+              <Form
+                activityId={activityId}
+                activityTitle={activityTitle}
+                action={action}
+              />
             </div>
           </div>,
           document.body

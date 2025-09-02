@@ -1,29 +1,29 @@
 import { db } from "@/prisma/db";
 import Link from "next/link";
 import ActivityCard from "./activity/[id]/[title]/activity-card";
-import { createCustomerAndRedirect } from "@/app/(shared)/actions";
+import { createBookingAndRedirect } from "@/app/(shared)/actions";
 
 export default async function Home() {
   const activities = await db.activity.findMany();
   console.log("activities.length =", activities.length);
 
   const currentCustomers = await db.customer.findMany();
-  const formatDateSE = (d: Date | string) =>
+  const formattedDate = (date: Date | string) =>
     new Intl.DateTimeFormat("sv-SE", {
       day: "numeric",
       month: "long",
       year: "numeric",
-    }).format(d instanceof Date ? d : new Date(d));
+    }).format(date instanceof Date ? date : new Date(date));
 
   return (
     <main>
       <div>
         <ul>
-          {currentCustomers.map((c) => (
-            <li key={c.id}>
-              <p>{c.name}</p>
-              <p>{c.email}</p>
-              <p>Bokning: {formatDateSE(c.date)}</p>
+          {currentCustomers.map((customer) => (
+            <li key={customer.id}>
+              <p>{customer.name}</p>
+              <p>{customer.email}</p>
+              <p>Bokning: {formattedDate(customer.date)}</p>
             </li>
           ))}
         </ul>
@@ -65,7 +65,7 @@ export default async function Home() {
               >
                 <ActivityCard
                   activity={activity}
-                  action={createCustomerAndRedirect}
+                  action={createBookingAndRedirect}
                 />
               </Link>
             ))

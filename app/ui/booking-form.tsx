@@ -3,11 +3,12 @@
 import React, { useState } from "react";
 
 type FormProps = {
+  activityId: string;
   activityTitle: string;
   action: (formData: FormData) => Promise<void>;
 };
 
-export default function Form({ activityTitle, action }: FormProps) {
+export default function Form({ activityId, activityTitle, action }: FormProps) {
   const [selectedDate, setSelectedDate] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ export default function Form({ activityTitle, action }: FormProps) {
       aria-label="Bokningsformulär"
       style={{ padding: 4, margin: "auto" }}
     >
+      <input type="hidden" name="activityId" value={activityId} />
       <input type="hidden" name="title" value={activityTitle} />
 
       <div
@@ -48,7 +50,7 @@ export default function Form({ activityTitle, action }: FormProps) {
 
         {selectedDate && (
           <div>
-            Valt datum:{" "}
+            Valt datum:
             {new Intl.DateTimeFormat("sv-SE", {
               day: "numeric",
               month: "long",
