@@ -17,27 +17,23 @@ export async function createBookingAndRedirect(formData: FormData) {
 
   const when = new Date(dateStr);
 
-  // 1) Ensure customer exists (email is unique in your schema)
   const customer = await db.customer.upsert({
     where: { email },
     update: { name, date: when },
     create: { name, email, date: when },
   });
 
-  // 2) Create booking that links customer + activity + date
   const booking = await db.booking.create({
     data: {
       date: when,
-      activityId, // ObjectId string
+      activityId,
       customerId: customer.id,
     },
     select: { id: true },
   });
 
-  // 3) Revalidate pages that list customers/bookings
   revalidatePath("/");
 
-  // 4) Redirect to a booking-specific confirmation page
   redirect(`/confirmation/${booking.id}?title=${encodeURIComponent(title)}`);
 }
 
@@ -46,12 +42,21 @@ export async function createGiftCardAndRedirect(formData: FormData) {
   const toName = String(formData.get("toName") || "");
   const message = String(formData.get("message") || "");
   const email = String(formData.get("email") || "");
-  const activityId = String(formData.get("activityId") || ""); // optional
+  const activityId = String(formData.get("activityId") || "");
   const activityTitle = String(
     formData.get("activityTitle") || "Valfri aktivitet"
   );
 
-  if (!fromName || !toName || !email) redirect("/?error=missing_fields");
+  if (!fromName || !toName || !email) {
+    redirect("/?error=missing_fields");
+  }
+
+  const now = new Date();
+  await db.customer.upsert({
+    where: { email },
+    update: { name: fromName, date: now },
+    create: { name: fromName, email, date: now },
+  });
 
   const gift = await db.giftCard.create({
     data: {
@@ -61,13 +66,10 @@ export async function createGiftCardAndRedirect(formData: FormData) {
       message: message || null,
       activityId: activityId || null,
     },
-    select: { id: true, code: true },
+    select: { id: true },
   });
 
   revalidatePath("/");
-  redirect(
-    `/giftcard/${gift.id}?code=${encodeURIComponent(
-      gift.code
-    )}&title=${encodeURIComponent(activityTitle)}`
-  );
+
+  redirect(`/giftcard/${gift.id}?title=${encodeURIComponent(activityTitle)}`);
 }
