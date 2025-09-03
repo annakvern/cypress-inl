@@ -1,7 +1,6 @@
 "use client";
 import type { Activity } from "@/generated/prisma";
 import BookingButton from "@/app/ui/booking-button";
-import GiftCardLink from "@/app/ui/gift-card-link";
 
 type ActivityCardProps = {
   activity: Activity;
@@ -11,6 +10,7 @@ type ActivityCardProps = {
 export default function ActivityCard({ activity, action }: ActivityCardProps) {
   return (
     <div
+      data-cy="activity"
       style={{
         border: "2px solid #9C8173",
         borderRadius: 8,

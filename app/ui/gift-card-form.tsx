@@ -2,7 +2,10 @@
 import { useMemo, useState } from "react";
 import { createGiftCardAndRedirect } from "@/app/(shared)/actions";
 
-type ActivityOpt = { id: string; title: string };
+export interface ActivityOpt {
+  id: string;
+  title: string;
+}
 
 export default function GiftCardForm({
   initialActivityId,

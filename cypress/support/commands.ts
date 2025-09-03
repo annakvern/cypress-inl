@@ -1,4 +1,9 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
+
+import { Activity, Customer } from "@/generated/prisma";
+import { seedActivities } from "@/prisma/seed/activity";
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite

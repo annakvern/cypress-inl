@@ -7,13 +7,13 @@ export default async function Home() {
   const activities = await db.activity.findMany();
   console.log("activities.length =", activities.length);
 
-  //const currentCustomers = await db.customer.findMany();
-  const formattedDate = (date: Date | string) =>
-    new Intl.DateTimeFormat("sv-SE", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).format(date instanceof Date ? date : new Date(date));
+  // //const currentCustomers = await db.customer.findMany();
+  // const formattedDate = (date: Date | string) =>
+  //   new Intl.DateTimeFormat("sv-SE", {
+  //     day: "numeric",
+  //     month: "long",
+  //     year: "numeric",
+  //   }).format(date instanceof Date ? date : new Date(date));
 
   return (
     <main>
