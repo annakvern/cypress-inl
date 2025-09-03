@@ -23,20 +23,33 @@ model Customer {
 }
 
 model Activity {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
   img         String
   bookings    Booking[]
+  giftCards   GiftCard[]
 }
 
 model Booking {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   date        DateTime
-
   activityId  String   @db.ObjectId
   activity    Activity @relation(fields: [activityId], references: [id])
-
   customerId  String   @db.ObjectId
   customer    Customer @relation(fields: [customerId], references: [id])
+}
+
+model GiftCard {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  code        String    @unique @default(cuid())     
+  fromName    String
+  toName      String
+  purchaserEmail String
+  message     String?
+  activityId  String?   @db.ObjectId    
+  activity    Activity? @relation(fields: [activityId], references: [id])
+  redeemed    Boolean   @default(false)
+  redeemedAt  DateTime?
+  createdAt   DateTime  @default(now())
 }

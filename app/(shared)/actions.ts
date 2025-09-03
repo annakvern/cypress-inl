@@ -40,3 +40,34 @@ export async function createBookingAndRedirect(formData: FormData) {
   // 4) Redirect to a booking-specific confirmation page
   redirect(`/confirmation/${booking.id}?title=${encodeURIComponent(title)}`);
 }
+
+export async function createGiftCardAndRedirect(formData: FormData) {
+  const fromName = String(formData.get("fromName") || "");
+  const toName = String(formData.get("toName") || "");
+  const message = String(formData.get("message") || "");
+  const email = String(formData.get("email") || "");
+  const activityId = String(formData.get("activityId") || ""); // optional
+  const activityTitle = String(
+    formData.get("activityTitle") || "Valfri aktivitet"
+  );
+
+  if (!fromName || !toName || !email) redirect("/?error=missing_fields");
+
+  const gift = await db.giftCard.create({
+    data: {
+      fromName,
+      toName,
+      purchaserEmail: email,
+      message: message || null,
+      activityId: activityId || null,
+    },
+    select: { id: true, code: true },
+  });
+
+  revalidatePath("/");
+  redirect(
+    `/giftcard/${gift.id}?code=${encodeURIComponent(
+      gift.code
+    )}&title=${encodeURIComponent(activityTitle)}`
+  );
+}

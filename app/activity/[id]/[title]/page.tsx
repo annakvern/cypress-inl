@@ -10,9 +10,11 @@ interface Props {
 
 export default async function ActivityPage({ params }: Props) {
   const { id } = await params;
+
   if (!id) {
     return <h1>Produkten hittades inte</h1>;
   }
+
   const activity = await db.activity.findUnique({
     where: { id: id },
   });

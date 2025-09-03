@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { createPortal } from "react-dom"; // a ChatGPT tip to use...
 import Form from "@/app/ui/booking-form";
-import { useRouter } from "next/navigation";
 
 interface BookingButtonProps {
   activityId: string;

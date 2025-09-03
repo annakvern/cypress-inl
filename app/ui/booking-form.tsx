@@ -1,6 +1,7 @@
 // app/ui/booking-form.tsx
 "use client";
 import React, { useState } from "react";
+import GiftCardLink from "./gift-card-link";
 
 type FormProps = {
   activityId: string;
@@ -111,6 +112,7 @@ export default function Form({ activityId, activityTitle, action }: FormProps) {
       >
         Fullför bokning
       </button>
+      <GiftCardLink activityId={activityId} activityTitle={activityTitle} />
     </form>
   );
 }
