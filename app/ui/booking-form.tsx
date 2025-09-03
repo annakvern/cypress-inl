@@ -1,4 +1,3 @@
-// app/ui/booking-form.tsx
 "use client";
 import React, { useState } from "react";
 import GiftCardLink from "./gift-card-link";

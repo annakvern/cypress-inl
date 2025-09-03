@@ -1,5 +1,6 @@
 import { db } from "@/prisma/db";
 import GiftCardForm from "@/app/ui/gift-card-form";
+import GoBackButton from "@/app/ui/go-back-button";
 
 export default async function NewGiftCardPage({
   params,
@@ -23,6 +24,7 @@ export default async function NewGiftCardPage({
           justifyContent: "center",
         }}
       >
+        <GoBackButton />
         <div
           style={{
             maxWidth: 700,
@@ -54,7 +56,6 @@ export default async function NewGiftCardPage({
     );
   }
 
-  // Preselected case → no dropdown, just show chosen activity
   const activity = await db.activity.findUnique({ where: { id: activityId } });
   const activityTitle = rawTitle
     ? decodeURIComponent(rawTitle)
@@ -68,6 +69,7 @@ export default async function NewGiftCardPage({
         justifyContent: "center",
       }}
     >
+      <GoBackButton />
       <div
         style={{
           maxWidth: 700,

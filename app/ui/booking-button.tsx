@@ -104,7 +104,11 @@ export default function BookingButton({
 
               <h3
                 id="booking-title"
-                style={{ fontFamily: "sans-serif", marginLeft: 8 }}
+                style={{
+                  fontFamily: "sans-serif",
+                  marginLeft: 8,
+                  fontSize: 20,
+                }}
               >
                 Boka {activityTitle}
               </h3>
