@@ -1,6 +1,7 @@
 "use client";
 import type { Activity } from "@/generated/prisma";
 import BookingButton from "@/app/ui/booking-button";
+import GiftCardLink from "@/app/ui/gift-card-link";
 
 type ActivityCardProps = {
   activity: Activity;
@@ -11,10 +12,11 @@ export default function ActivityCard({ activity, action }: ActivityCardProps) {
   return (
     <div
       style={{
-        border: "1px solid gray",
+        border: "2px solid #9C8173",
         borderRadius: 8,
         overflow: "hidden",
         width: 320,
+        padding: 10,
       }}
     >
       <img
