@@ -5,7 +5,7 @@ export const Footer = () => {
     <footer
       style={{
         padding: 20,
-        backgroundColor: "gray",
+        backgroundColor: "#d9cdc7",
       }}
     >
       <div>
@@ -14,6 +14,7 @@ export const Footer = () => {
             flexGrow: 1,
             textDecoration: "none",
             fontSize: 20,
+            color: "#363433",
           }}
         >
           Copyright Nattaktiviteter AB

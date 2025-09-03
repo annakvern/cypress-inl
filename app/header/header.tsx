@@ -5,7 +5,7 @@ export const Header = () => {
     <header
       style={{
         padding: 20,
-        backgroundColor: "gray",
+        backgroundColor: "#d9cdc7",
         zIndex: 1100,
       }}
     >
@@ -15,6 +15,7 @@ export const Header = () => {
             flexGrow: 1,
             textDecoration: "none",
             fontSize: 45,
+            color: "#363433",
           }}
         >
           Nattaktiviteter
