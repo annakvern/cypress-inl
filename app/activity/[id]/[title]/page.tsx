@@ -35,12 +35,11 @@ export default async function ActivityPage({ params }: Props) {
         marginTop: 20,
       }}
     >
-      <GoBackButton />
       <div
         style={{
           padding: 80,
-          backgroundColor: "#dddddd",
-          border: "2px solid #c7c7c7",
+          backgroundColor: "#f4f0ee",
+          border: "2px solid #9C8173",
           borderRadius: "0.5rem",
           margin: "2rem 0",
           width: "70%",
@@ -51,6 +50,7 @@ export default async function ActivityPage({ params }: Props) {
           gap: 20,
         }}
       >
+        <GoBackButton />
         <div
           style={{
             width: "70%",

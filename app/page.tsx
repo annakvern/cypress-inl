@@ -7,7 +7,7 @@ export default async function Home() {
   const activities = await db.activity.findMany();
   console.log("activities.length =", activities.length);
 
-  const currentCustomers = await db.customer.findMany();
+  //const currentCustomers = await db.customer.findMany();
   const formattedDate = (date: Date | string) =>
     new Intl.DateTimeFormat("sv-SE", {
       day: "numeric",
@@ -18,7 +18,7 @@ export default async function Home() {
   return (
     <main>
       <div>
-        <ul>
+        {/* <ul>
           {currentCustomers.map((customer) => (
             <li key={customer.id}>
               <p>{customer.name}</p>
@@ -26,13 +26,14 @@ export default async function Home() {
               <p>Bokning: {formattedDate(customer.date)}</p>
             </li>
           ))}
-        </ul>
+        </ul> */}
         <h1
           style={{
             fontFamily: "sans-serif",
             margin: "auto",
             textAlign: "center",
-            marginTop: 20,
+            marginTop: 50,
+            marginBottom: 50,
             fontSize: 30,
           }}
         >
@@ -40,10 +41,9 @@ export default async function Home() {
         </h1>
         <div
           style={{
-            width: 1200,
-            margin: "auto",
-            marginTop: 50,
+            width: "100%",
             display: "flex",
+            justifyContent: "center",
             gap: 50,
           }}
         >
