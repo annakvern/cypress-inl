@@ -1,4 +1,3 @@
-// app/confirmation/[bookingId]/page.tsx
 import { db } from "@/prisma/db";
 import Link from "next/link";
 

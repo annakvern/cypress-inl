@@ -13,7 +13,7 @@ export default function GoBackButton() {
     if (hasSameOriginReferrer) {
       router.back();
     } else {
-      router.push("/"); // fallback to home
+      router.push("/");
     }
   };
 

@@ -11,7 +11,6 @@ export default async function NewGiftCardPage({
   const [activityId, rawTitle] = slug;
 
   if (!activityId) {
-    // Generic case → show dropdown
     const activities = await db.activity.findMany({
       select: { id: true, title: true },
       orderBy: { title: "asc" },
@@ -94,7 +93,7 @@ export default async function NewGiftCardPage({
         <GiftCardForm
           initialActivityId={activity?.id ?? ""}
           initialActivityTitle={activityTitle}
-          activities={[]} // no dropdown
+          activities={[]}
         />
       </div>
     </main>
