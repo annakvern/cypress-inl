@@ -43,6 +43,7 @@ export default function Form({ activityId, activityTitle, action }: FormProps) {
 
   return (
     <form
+      data-cy="booking-form"
       action={action}
       aria-label="Bokningsformulär"
       style={{ padding: 4, margin: "auto" }}
@@ -119,7 +120,7 @@ export default function Form({ activityId, activityTitle, action }: FormProps) {
           }}
         />
         {touched.name && !nameValid && (
-          <small style={{ color: "crimson" }}>
+          <small data-cy="name-error" style={{ color: "crimson" }}>
             Skriv minst 2 tecken (bokstäver, mellanslag, bindestreck).
           </small>
         )}
@@ -146,7 +147,7 @@ export default function Form({ activityId, activityTitle, action }: FormProps) {
           }}
         />
         {touched.email && !emailValid && (
-          <small style={{ color: "crimson" }}>
+          <small data-cy="email-error" style={{ color: "crimson" }}>
             Ange en giltig e-postadress.
           </small>
         )}

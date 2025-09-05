@@ -1,4 +1,3 @@
-// app/gift-card/[giftCardId]/page.tsx
 import { db } from "@/prisma/db";
 import Link from "next/link";
 
@@ -40,7 +39,7 @@ export default async function GiftCardConfirmation({
         }}
       >
         <h1 style={{ marginTop: 0, textAlign: "center" }}>
-          Tack! Ditt presentkort är klart 🎁
+          Tack! Ditt presentkort är klart.
         </h1>
 
         <div style={{ marginTop: 16, textAlign: "center" }}>

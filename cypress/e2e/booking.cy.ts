@@ -1,31 +1,40 @@
-// cypress/e2e/booking.cy.ts
 const uniqeEmail = () => Math.random().toString(36).slice(2, 8);
 
 describe("Booking flow", () => {
   before(() => {
-    cy.exec("node scripts/seed-for-tests.js");
+    cy.task("reseed");
+  });
+
+  beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.visit("/");
   });
 
   it("books an activity and reaches confirmation", () => {
     cy.visit("/");
     cy.contains("Boka aktivitet");
 
-    // Click the activity card to open page
-    cy.contains("Skogsnattvandring").click();
+    cy.contains('[data-cy="activity-card"]', "Skogsnattvandring").within(() => {
+      cy.get('[data-cy="open-booking"]').click();
+    });
 
-    // Open booking modal/button
-    cy.get('[data-cy="open-booking"]').click();
-
-    // Fill form
     cy.get('[data-cy="booking-form"]').within(() => {
-      // type="date" needs YYYY-MM-DD
       cy.get('input[type="date"]').type("2026-08-17");
-      cy.get('input[name="name"]').type("Lisa Test");
-      cy.get('input[name="email"]').type(`lisa.${uniqeEmail()}@example.com`);
+      cy.get('input[name="name"]').type("K").blur();
+      cy.get('[data-cy="name-error"]').should(
+        "contain",
+        "Skriv minst 2 tecken"
+      );
+      cy.get('input[name="name"]').type("Kalle Test");
+      cy.get('input[name="email"]').type("t").blur();
+      cy.get('[data-cy="email-error"]').should(
+        "contain",
+        "Ange en giltig e-postadress."
+      );
+      cy.get('input[name="email"]').type(`kalle.${uniqeEmail()}@example.com`);
       cy.contains("Fullför bokning").click();
     });
 
-    // Redirected + confirmation renders
     cy.url().should("include", "/confirmation/");
     cy.get('[data-cy="confirmation-title"]').should(
       "contain",

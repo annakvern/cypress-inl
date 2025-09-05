@@ -42,10 +42,19 @@ export default defineConfig({
       process.env.DATABASE_URL = dbUri;
       on("task", {
         async reseed() {
+          process.env.DATABASE_URL = dbUri;
+
           const { db } = await import("./prisma/db");
-          const { seedCustomers } = await import("./prisma/seed/customer");
-          await db.customer.deleteMany();
-          await seedCustomers();
+          const { seedActivities } = await import("./prisma/seed/activity");
+
+          await db.$transaction([
+            db.booking.deleteMany({}),
+            db.giftCard.deleteMany({}),
+            db.customer.deleteMany({}),
+            db.activity.deleteMany({}),
+          ]);
+
+          await seedActivities();
 
           return null;
         },

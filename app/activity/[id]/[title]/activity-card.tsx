@@ -10,7 +10,7 @@ type ActivityCardProps = {
 export default function ActivityCard({ activity, action }: ActivityCardProps) {
   return (
     <div
-      data-cy="activity"
+      data-cy="activity-card"
       style={{
         border: "2px solid #9C8173",
         borderRadius: 8,

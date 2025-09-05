@@ -33,6 +33,7 @@ export default function BookingButton({
   return (
     <>
       <button
+        data-cy="open-booking"
         type="button"
         onClick={(e) => {
           e.preventDefault();
@@ -55,6 +56,7 @@ export default function BookingButton({
       {isOpen &&
         createPortal(
           <div
+            data-cy="booking-modal"
             onMouseDown={(e) => {
               if (e.target === e.currentTarget) close();
             }}
@@ -104,6 +106,7 @@ export default function BookingButton({
 
               <h3
                 id="booking-title"
+                data-cy="booking-title"
                 style={{
                   fontFamily: "sans-serif",
                   marginLeft: 8,

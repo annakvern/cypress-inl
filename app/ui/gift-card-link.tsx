@@ -15,6 +15,7 @@ export default function GiftCardLink({
 
   return (
     <Link
+      data-cy="giftcard-link"
       href={href}
       style={{
         textDecoration: "underline",

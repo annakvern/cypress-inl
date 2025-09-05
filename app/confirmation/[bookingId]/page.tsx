@@ -45,7 +45,10 @@ export default async function ConfirmationPage({
           background: "#fff",
         }}
       >
-        <h1 style={{ textAlign: "center", marginTop: 0 }}>
+        <h1
+          data-cy="confirmation-title"
+          style={{ textAlign: "center", marginTop: 0 }}
+        >
           Yay! Du är bokad på {title} den {dateText} – välkommen!
         </h1>
         <p style={{ textAlign: "center", marginTop: 24 }}>

@@ -2,32 +2,23 @@ import { db } from "@/prisma/db";
 import Link from "next/link";
 import ActivityCard from "./activity/[id]/[title]/activity-card";
 import { createBookingAndRedirect } from "@/app/(shared)/actions";
+import GiftCardLink from "./ui/gift-card-link";
 
 export default async function Home() {
   const activities = await db.activity.findMany();
-  console.log("activities.length =", activities.length);
-
-  // //const currentCustomers = await db.customer.findMany();
-  // const formattedDate = (date: Date | string) =>
-  //   new Intl.DateTimeFormat("sv-SE", {
-  //     day: "numeric",
-  //     month: "long",
-  //     year: "numeric",
-  //   }).format(date instanceof Date ? date : new Date(date));
 
   return (
     <main>
-      <div>
-        {/* <ul>
-          {currentCustomers.map((customer) => (
-            <li key={customer.id}>
-              <p>{customer.name}</p>
-              <p>{customer.email}</p>
-              <p>Bokning: {formattedDate(customer.date)}</p>
-            </li>
-          ))}
-        </ul> */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <h1
+          data-cy="page-title"
           style={{
             fontFamily: "sans-serif",
             margin: "auto",
@@ -45,6 +36,7 @@ export default async function Home() {
             display: "flex",
             justifyContent: "center",
             gap: 50,
+            marginBottom: 50,
           }}
         >
           {activities.length === 0 ? (
@@ -71,6 +63,7 @@ export default async function Home() {
             ))
           )}
         </div>
+        <GiftCardLink />
       </div>
     </main>
   );

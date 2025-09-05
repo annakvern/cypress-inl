@@ -45,6 +45,7 @@ export default function GiftCardForm({
 
   return (
     <form
+      data-cy="giftcard-form"
       action={createGiftCardAndRedirect}
       style={{ display: "grid", gap: 12 }}
     >
@@ -70,7 +71,7 @@ export default function GiftCardForm({
           }}
         />
         {touched.from && !fromValid && (
-          <small style={{ color: "crimson" }}>
+          <small data-cy="from-name-error" style={{ color: "crimson" }}>
             Skriv minst 2 tecken (bokstäver, mellanslag, bindestreck).
           </small>
         )}
@@ -97,7 +98,7 @@ export default function GiftCardForm({
           }}
         />
         {touched.to && !toValid && (
-          <small style={{ color: "crimson" }}>
+          <small data-cy="to-name-error" style={{ color: "crimson" }}>
             Skriv minst 2 tecken (bokstäver, mellanslag, bindestreck).
           </small>
         )}
@@ -123,7 +124,7 @@ export default function GiftCardForm({
           }}
         />
         {touched.email && !emailValid && (
-          <small style={{ color: "crimson" }}>
+          <small data-cy="email-error" style={{ color: "crimson" }}>
             Ange en giltig e-postadress.
           </small>
         )}
@@ -151,8 +152,14 @@ export default function GiftCardForm({
 
       {activities.length > 0 ? (
         <div>
-          <label>Aktivitet</label>
+          <label>Aktivitet: </label>
           <select
+            data-cy="activity-select"
+            style={{
+              border: "1px solid gray",
+              borderRadius: 5,
+              padding: 5,
+            }}
             value={activityId}
             onChange={(e) => {
               const id = e.target.value;
