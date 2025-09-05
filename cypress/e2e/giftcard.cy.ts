@@ -56,6 +56,11 @@ describe("Gift card flow", () => {
     cy.url().should("include", "/giftcard/");
     cy.contains("Tack! Ditt presentkort är klart");
     cy.contains(/Nattrejv i skogen|Valfri aktivitet/);
-    // Optional: code box if you display one
+    cy.get('[data-cy="giftcard-code"]')
+      .invoke("text")
+      .then((t) => {
+        const code = t.trim();
+        expect(code).to.match(/^[a-z0-9]{25}$/);
+      });
   });
 });

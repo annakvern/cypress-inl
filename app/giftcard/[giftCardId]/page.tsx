@@ -52,6 +52,7 @@ export default async function GiftCardConfirmation({
 
           <div style={{ marginTop: 16 }}>
             <div
+              data-cy="giftcard-code"
               style={{
                 display: "inline-block",
                 padding: "10px 14px",

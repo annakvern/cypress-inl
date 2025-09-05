@@ -40,6 +40,7 @@ export default defineConfig({
 
       // 5. Reseeda om databasen så att testerna blir oberoende av varandra
       process.env.DATABASE_URL = dbUri;
+
       on("task", {
         async reseed() {
           process.env.DATABASE_URL = dbUri;
